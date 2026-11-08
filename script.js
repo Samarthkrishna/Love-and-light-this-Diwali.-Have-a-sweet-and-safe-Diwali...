@@ -1,0 +1,10 @@
+// EDIT THESE TWO VALUES BEFORE SHARING
+const recipientName="Someone Special", senderName="Your Well-Wisher";
+document.getElementById("to").textContent=recipientName;document.getElementById("to2").textContent=recipientName;document.getElementById("from").textContent=senderName;document.getElementById("signoff").textContent="With warm wishes, "+senderName;
+const entry=document.getElementById("entry"),site=document.getElementById("site");
+document.getElementById("enter").onclick=()=>{entry.classList.add("hide");site.classList.add("visible");setTimeout(()=>entry.remove(),1000);burst(innerWidth/2,innerHeight*.4,110)};
+document.getElementById("go").onclick=()=>{document.getElementById("wish").scrollIntoView({behavior:"smooth"});burst(innerWidth/2,innerHeight*.4,55)};
+document.getElementById("fire").onclick=()=>{for(let i=0;i<10;i++)setTimeout(()=>burst(innerWidth*(.08+Math.random()*.84),innerHeight*(.08+Math.random()*.5),85),i*170)};
+const c=document.getElementById("sky"),x=c.getContext("2d");let ps=[];function resize(){let d=Math.min(devicePixelRatio||1,2);c.width=innerWidth*d;c.height=innerHeight*d;c.style.width=innerWidth+"px";c.style.height=innerHeight+"px";x.setTransform(d,0,0,d,0,0)}addEventListener("resize",resize);resize();
+function burst(a,b,n){let colors=["#ffdb8b","#fff2ce","#ff9eb9","#e7b7ff","#ffb96d","#fff"];for(let i=0;i<n;i++){let t=Math.random()*6.283,s=1+Math.random()*4;ps.push({a,b,vx:Math.cos(t)*s,vy:Math.sin(t)*s,l:60+Math.random()*30,m:90,r:1+Math.random()*2,col:colors[Math.floor(Math.random()*colors.length)]})}}
+function draw(){x.clearRect(0,0,innerWidth,innerHeight);ps=ps.filter(p=>p.l>0);for(let p of ps){p.a+=p.vx;p.b+=p.vy;p.vy+=.025;p.vx*=.986;p.vy*=.986;p.l--;x.globalAlpha=Math.max(0,p.l/p.m);x.fillStyle=p.col;x.beginPath();x.arc(p.a,p.b,p.r,0,6.28);x.fill()}x.globalAlpha=1;requestAnimationFrame(draw)}draw();let last=0;function ambient(t){if(t-last>2600){if(Math.random()>.35)burst(Math.random()*innerWidth,Math.random()*innerHeight*.45,18);last=t}requestAnimationFrame(ambient)}requestAnimationFrame(ambient);
